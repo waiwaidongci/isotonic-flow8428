@@ -8,6 +8,9 @@ class MonotoneRun(Base):
  study_id:Mapped[int]=mapped_column(ForeignKey('flow_studies.id'))
  name:Mapped[str]=mapped_column(String(180),unique=True)
  config:Mapped[dict]=mapped_column(JSON)
+ # 排队时刻冻结的完整输入（研究、档位、读数）。worker 与重算只允许使用该快照。
+ input_snapshot:Mapped[dict|None]=mapped_column(JSON,nullable=True)
+ input_fingerprint:Mapped[str|None]=mapped_column(String(64),nullable=True)
  status:Mapped[str]=mapped_column(String(24),default='queued')
  result:Mapped[dict|None]=mapped_column(JSON,nullable=True)
  error:Mapped[str|None]=mapped_column(Text,nullable=True)

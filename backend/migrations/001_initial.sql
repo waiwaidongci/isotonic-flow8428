@@ -3,3 +3,10 @@
 -- pressure_readings(study_id,specimen_ref UNIQUE,level_id,pressure,measurement_note)
 -- monotone_runs(config JSON,result JSON,status), validation_notes(result_snapshot JSON,status)
 -- users(email UNIQUE), audit_logs. No production migration runner is claimed.
+--
+-- 排队输入冻结（无迁移运行器，由 src/services/snapshots.py 的 ensure_run_columns 幂等补列）:
+-- ALTER TABLE monotone_runs ADD COLUMN input_snapshot JSON;
+--   排队时刻冻结的 {version,study,levels,readings} 完整底稿，worker 与重试只读该列。
+-- ALTER TABLE monotone_runs ADD COLUMN input_fingerprint VARCHAR(64);
+--   排队输入（研究/档位/读数/配置）的 sha256 指纹，执行前核验，防止并发修订混用两版。
+-- 历史运行两列为 NULL 时，worker 与重算端点明确拒绝，不得以当前底稿现值补齐。

@@ -15,6 +15,8 @@ from src.routes import auth,studies,runs,notes,audit
 @asynccontextmanager
 async def lifespan(app):
  Base.metadata.create_all(engine)
+ from src.services.snapshots import ensure_run_columns
+ ensure_run_columns(engine)
  if SEED_DEMO:
   try:
    from scripts.seed_demo import seed
