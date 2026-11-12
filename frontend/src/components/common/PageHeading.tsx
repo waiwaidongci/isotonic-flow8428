@@ -1,0 +1,1 @@
+import type {ReactNode} from 'react';export function PageHeading({index,title,description,action}:{index:string;title:string;description:string;action?:ReactNode}){return <header className="page-heading"><div><small>FANGWEN / RESPONSE LEDGER {index}</small><h1>{title}</h1><p>{description}</p></div>{action}</header>}

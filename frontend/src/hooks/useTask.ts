@@ -1,0 +1,1 @@
+import {useState} from 'react';export function useTask(){const [busy,B]=useState(false),[error,E]=useState(''),[message,M]=useState('');async function act(fn:()=>Promise<any>,message='已保存'){B(true);E('');M('');try{const value=await fn();M(message);return value}catch(error){E(error.message);return null}finally{B(false)}}return {busy,error,message,act}}
